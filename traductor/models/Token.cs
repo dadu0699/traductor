@@ -23,6 +23,7 @@ namespace traductor.models
             RESERVADA_IF,
             RESERVADA_INT,
             RESERVADA_NEW,
+            RESERVADA_NULL,
             RESERVADA_STATIC,
             RESERVADA_STRING,
             RESERVADA_SWITCH,
@@ -103,6 +104,8 @@ namespace traductor.models
                         return "Reservada int";
                     case Type.RESERVADA_NEW:
                         return "Reservada new";
+                    case Type.RESERVADA_NULL:
+                        return "Reservada null";
                     case Type.RESERVADA_STATIC:
                         return "Reservada static";
                     case Type.RESERVADA_STRING:

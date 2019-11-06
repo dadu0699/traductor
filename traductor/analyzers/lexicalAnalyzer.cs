@@ -409,6 +409,10 @@ namespace traductor.analyzers
             {
                 addToken(Token.Type.RESERVADA_NEW);
             }
+            else if (auxiliary.Equals("null", StringComparison.InvariantCultureIgnoreCase))
+            {
+                addToken(Token.Type.RESERVADA_NULL);
+            }
             else if (auxiliary.Equals("static", StringComparison.InvariantCultureIgnoreCase))
             {
                 addToken(Token.Type.RESERVADA_STATIC);

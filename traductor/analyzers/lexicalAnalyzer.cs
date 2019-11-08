@@ -91,6 +91,12 @@ namespace traductor.analyzers
                             state = 8;
                             auxiliary += character;
                         }
+                        // Character
+                        else if (character.Equals('\''))
+                        {
+                            state = 12;
+                            auxiliary += character;
+                        }
                         // Blanks and line breaks
                         else if (char.IsWhiteSpace(character))
                         {
@@ -136,9 +142,14 @@ namespace traductor.analyzers
                             state = 2;
                             auxiliary += character;
                         }
+                        else if (character.Equals('.'))
+                        {
+                            state = 13;
+                            auxiliary += character;
+                        }
                         else
                         {
-                            addToken(Token.Type.NUMERO);
+                            addToken(Token.Type.DIGITO);
                             i--;
                         }
                         break;
@@ -210,7 +221,7 @@ namespace traductor.analyzers
                         {
                             state = 9;
                             auxiliary += character;
-                        } 
+                        }
                         else if (character.Equals('*'))
                         {
                             state = 10;
@@ -218,10 +229,7 @@ namespace traductor.analyzers
                         }
                         else
                         {
-                            Console.WriteLine("Lexical Error: Not Found '" + auxiliary + "' in defined patterns");
-                            addError(auxiliary);
-                            auxiliary = "";
-                            state = 0;
+                            addToken(Token.Type.SIMBOLO_DIVISION);
                             i--;
                         }
                         break;
@@ -259,6 +267,30 @@ namespace traductor.analyzers
                         {
                             auxiliary += character;
                             addToken(Token.Type.COMENTARIO_MULTILINEA);
+                        }
+                        break;
+                    case 12:
+                        if (!character.Equals('\''))
+                        {
+                            state = 12;
+                            auxiliary += character;
+                        }
+                        else
+                        {
+                            auxiliary += character;
+                            addToken(Token.Type.CARACTER);
+                        }
+                        break;
+                    case 13:
+                        if (char.IsDigit(character))
+                        {
+                            state = 13;
+                            auxiliary += character;
+                        }
+                        else
+                        {
+                            addToken(Token.Type.DECIMAL);
+                            i--;
                         }
                         break;
                 }
@@ -344,12 +376,6 @@ namespace traductor.analyzers
             {
                 auxiliary += character;
                 addToken(Token.Type.SIMBOLO_MULTIPLICACION);
-                return true;
-            }
-            else if (character.Equals('/'))
-            {
-                auxiliary += character;
-                addToken(Token.Type.SIMBOLO_DIVISION);
                 return true;
             }
             return false;

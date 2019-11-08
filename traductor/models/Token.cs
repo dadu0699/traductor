@@ -55,9 +55,11 @@ namespace traductor.models
             SIMBOLO_MENOS_MENOS,
             SIMBOLO_MAYOR_IGUAL,
             SIMBOLO_MENOR_IGUAL,
-            NUMERO,
+            DIGITO,
+            DECIMAL,
             IDENTIFICADOR,
             CADENA,
+            CARACTER,
             COMENTARIO_UNA_LINEA,
             COMENTARIO_MULTILINEA
         }
@@ -72,7 +74,8 @@ namespace traductor.models
         public int Row { get => row; set => row = value; }
         public int Column { get => column; set => column = value; }
         public string Value { get => value; set => this.value = value; }
-        public string TypeToken
+        public Type TypeToken { get => typeToken; set => typeToken = value; }
+        public string toStringTypeToken
         {
             get
             {
@@ -172,12 +175,16 @@ namespace traductor.models
                         return "Comentario de una Línea";
                     case Type.COMENTARIO_MULTILINEA:
                         return "Comentario Multilínea";
-                    case Type.NUMERO:
-                        return "Numero";
+                    case Type.DIGITO:
+                        return "Digito";
+                    case Type.DECIMAL:
+                        return "Decimal";
                     case Type.IDENTIFICADOR:
                         return "Identificador";
                     case Type.CADENA:
                         return "Cadena";
+                    case Type.CARACTER:
+                        return "Caracter";
                     default:
                         return "Desconocido";
                 }

@@ -56,7 +56,7 @@ namespace traductor.util
             streamWriter.WriteLine("</head>");
             streamWriter.WriteLine("<body>");
             streamWriter.WriteLine("<div class=\"container\"><br>");
-            streamWriter.WriteLine("<h1>Listado de Tokens " + DateTime.Now.ToString("M/d/yyyy") + "</h1><hr>");
+            streamWriter.WriteLine("<h1>Listado de Tokens " + DateTime.Now.ToString("MM/dd/yyyy HH:mm") + "</h1><hr>");
             streamWriter.WriteLine("<table id=\"example\" class=\"table table - striped table - bordered\" style=\"width: 100 % \">");
             streamWriter.WriteLine("<thead><tr><th>#</th><th>Lexema</th><th>Tipo</th><th>Fila</th><th>Columna</th></tr></thead>");
             streamWriter.WriteLine("<tbody>");
@@ -66,7 +66,7 @@ namespace traductor.util
                 streamWriter.WriteLine("<tr>");
                 streamWriter.WriteLine("<th>" + item.IdToken + "</th>");
                 streamWriter.WriteLine("<th>" + item.Value + "</th>");
-                streamWriter.WriteLine("<th>" + item.TypeToken + "</th>");
+                streamWriter.WriteLine("<th>" + item.toStringTypeToken + "</th>");
                 streamWriter.WriteLine("<th>" + item.Row + "</th>");
                 streamWriter.WriteLine("<th>" + item.Column + "</th>");
                 streamWriter.WriteLine("</tr>");
@@ -88,7 +88,7 @@ namespace traductor.util
             streamWriter.WriteLine("</head>");
             streamWriter.WriteLine("<body>");
             streamWriter.WriteLine("<div class=\"container\"><br>");
-            streamWriter.WriteLine("<h1>Listado de Errores " + DateTime.Now.ToString("M/d/yyyy") + "</h1><hr>");
+            streamWriter.WriteLine("<h1>Listado de Errores " + DateTime.Now.ToString("MM/dd/yyyy HH:mm") + "</h1><hr>");
             streamWriter.WriteLine("<table id=\"example\" class=\"table table - striped table - bordered\" style=\"width: 100 % \">");
             streamWriter.WriteLine("<thead><tr><th>#</th><th>Error</th><th>Descripción</th><th>Fila</th><th>Columna</th></tr></thead>");
             streamWriter.WriteLine("<tbody>");

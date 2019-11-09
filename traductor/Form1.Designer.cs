@@ -122,20 +122,20 @@
             // tokenReportToolStripMenuItem
             // 
             this.tokenReportToolStripMenuItem.Name = "tokenReportToolStripMenuItem";
-            this.tokenReportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tokenReportToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.tokenReportToolStripMenuItem.Text = "Tabla de tokens";
             this.tokenReportToolStripMenuItem.Click += new System.EventHandler(this.tokenReportToolStripMenuItem_Click);
             // 
             // tablaDeSimbolosToolStripMenuItem
             // 
             this.tablaDeSimbolosToolStripMenuItem.Name = "tablaDeSimbolosToolStripMenuItem";
-            this.tablaDeSimbolosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tablaDeSimbolosToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.tablaDeSimbolosToolStripMenuItem.Text = "Tabla de simbolos";
             // 
             // tablaDeErroresToolStripMenuItem
             // 
             this.tablaDeErroresToolStripMenuItem.Name = "tablaDeErroresToolStripMenuItem";
-            this.tablaDeErroresToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tablaDeErroresToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.tablaDeErroresToolStripMenuItem.Text = "Tabla de errores";
             // 
             // limpiarDocumentosRecientesToolStripMenuItem
@@ -180,6 +180,7 @@
             // 
             // textEditor
             // 
+            this.textEditor.AcceptsTab = true;
             this.textEditor.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textEditor.Location = new System.Drawing.Point(10, 10);

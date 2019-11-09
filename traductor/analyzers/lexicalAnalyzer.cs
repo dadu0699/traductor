@@ -97,6 +97,18 @@ namespace traductor.analyzers
                             state = 12;
                             auxiliary += character;
                         }
+                        // Plus and Increment operators
+                        else if (character.Equals('+'))
+                        {
+                            state = 14;
+                            auxiliary += character;
+                        }
+                        // Minus and Decrement operators
+                        else if (character.Equals('-'))
+                        {
+                            state = 15;
+                            auxiliary += character;
+                        }
                         // Blanks and line breaks
                         else if (char.IsWhiteSpace(character))
                         {
@@ -293,6 +305,30 @@ namespace traductor.analyzers
                             i--;
                         }
                         break;
+                    case 14:
+                        if (character.Equals('+'))
+                        {
+                            auxiliary += character;
+                            addToken(Token.Type.SIMBOLO_MAS_MAS);
+                        }
+                        else
+                        {
+                            addToken(Token.Type.SIMBOLO_MAS);
+                            i--;
+                        }
+                        break;
+                    case 15:
+                        if (character.Equals('-'))
+                        {
+                            auxiliary += character;
+                            addToken(Token.Type.SIMBOLO_MENOS_MENOS);
+                        }
+                        else
+                        {
+                            addToken(Token.Type.SIMBOLO_MENOS);
+                            i--;
+                        }
+                        break;
                 }
                 column++;
             }
@@ -358,18 +394,6 @@ namespace traductor.analyzers
             {
                 auxiliary += character;
                 addToken(Token.Type.SIMBOLO_DOS_PUNTOS);
-                return true;
-            }
-            else if (character.Equals('+'))
-            {
-                auxiliary += character;
-                addToken(Token.Type.SIMBOLO_MAS);
-                return true;
-            }
-            else if (character.Equals('-'))
-            {
-                auxiliary += character;
-                addToken(Token.Type.SIMBOLO_MENOS);
                 return true;
             }
             else if (character.Equals('*'))

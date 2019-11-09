@@ -182,7 +182,7 @@ namespace traductor.analyzers
             if (preAnalysis.TypeToken == Token.Type.SIMBOLO_IGUAL)
             {
                 parea(Token.Type.SIMBOLO_IGUAL);
-                valor();
+                asignacionP();
             }
         }
 
@@ -194,41 +194,6 @@ namespace traductor.analyzers
                 parea(Token.Type.IDENTIFICADOR);
                 asigVar();
                 dclVariable();
-            }
-        }
-
-        public void valor()
-        {
-            if (preAnalysis.TypeToken == Token.Type.CADENA)
-            {
-                parea(Token.Type.CADENA);
-            }
-            else if (preAnalysis.TypeToken == Token.Type.CARACTER)
-            {
-                parea(Token.Type.CARACTER);
-            }
-            else if (preAnalysis.TypeToken == Token.Type.IDENTIFICADOR)
-            {
-                parea(Token.Type.IDENTIFICADOR);
-            }
-            else if (preAnalysis.TypeToken == Token.Type.RESERVADA_TRUE)
-            {
-                parea(Token.Type.RESERVADA_TRUE);
-            }
-            else if (preAnalysis.TypeToken == Token.Type.RESERVADA_FALSE)
-            {
-                parea(Token.Type.RESERVADA_FALSE);
-            }
-            else if (preAnalysis.TypeToken == Token.Type.DIGITO || preAnalysis.TypeToken == Token.Type.DECIMAL
-                || preAnalysis.TypeToken == Token.Type.SIMBOLO_PARENTESIS_IZQ)
-            {
-                expresion();
-            }
-            else
-            {
-                Console.WriteLine("Syntactic Error: Was expected 'cadena | caracter | true | false | expresion | id' " +
-                    "instead of '" + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
-                syntacticError = true;
             }
         }
 
@@ -284,6 +249,11 @@ namespace traductor.analyzers
                 expresion();
                 parea(Token.Type.SIMBOLO_PARENTESIS_DCHO);
             }
+            else if (preAnalysis.TypeToken == Token.Type.IDENTIFICADOR)
+            {
+                parea(Token.Type.IDENTIFICADOR);
+                asigArregloP();
+            }
             else if (preAnalysis.TypeToken == Token.Type.DIGITO)
             {
                 parea(Token.Type.DIGITO);
@@ -292,10 +262,26 @@ namespace traductor.analyzers
             {
                 parea(Token.Type.DECIMAL);
             }
+            else if (preAnalysis.TypeToken == Token.Type.CADENA)
+            {
+                parea(Token.Type.CADENA);
+            }
+            else if (preAnalysis.TypeToken == Token.Type.CARACTER)
+            {
+                parea(Token.Type.CARACTER);
+            }
+            else if (preAnalysis.TypeToken == Token.Type.RESERVADA_TRUE)
+            {
+                parea(Token.Type.RESERVADA_TRUE);
+            }
+            else if (preAnalysis.TypeToken == Token.Type.RESERVADA_FALSE)
+            {
+                parea(Token.Type.RESERVADA_FALSE);
+            }
             else
             {
-                Console.WriteLine("Syntactic Error: Was expected '( | digito | decimal' instead of '"
-                    + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
+                Console.WriteLine("Syntactic Error: Was expected '( | digito | decimal | cadena | caracter | true | false " +
+                    "| id' instead of '" + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
                 syntacticError = true;
             }
         }
@@ -307,13 +293,14 @@ namespace traductor.analyzers
                 parea(Token.Type.RESERVADA_NEW);
                 tipo();
                 parea(Token.Type.SIMBOLO_CORCHETE_IZQ);
+                // Tiene que venir?
                 expresion();
                 parea(Token.Type.SIMBOLO_CORCHETE_DCHO);
             }
             else if (preAnalysis.TypeToken == Token.Type.SIMBOLO_LLAVE_IZQ)
             {
                 parea(Token.Type.SIMBOLO_LLAVE_IZQ);
-                valor();
+                expresion();
                 asigArreglo();
                 parea(Token.Type.SIMBOLO_LLAVE_DCHO);
             }
@@ -330,7 +317,7 @@ namespace traductor.analyzers
             if (preAnalysis.TypeToken == Token.Type.SIMBOLO_COMA)
             {
                 parea(Token.Type.SIMBOLO_COMA);
-                valor();
+                expresion();
                 asigArreglo();
             }
         }
@@ -400,12 +387,12 @@ namespace traductor.analyzers
                 || preAnalysis.TypeToken == Token.Type.DECIMAL || preAnalysis.TypeToken == Token.Type.SIMBOLO_PARENTESIS_IZQ
                 || preAnalysis.TypeToken == Token.Type.RESERVADA_TRUE || preAnalysis.TypeToken == Token.Type.RESERVADA_FALSE)
             {
-                valor();
+                expresion();
                 concatenacion();
             }
             else
             {
-                Console.WriteLine("Syntactic Error: Was expected 'valor' instead of '"
+                Console.WriteLine("Syntactic Error: Was expected 'expresion' instead of '"
                     + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
                 syntacticError = true;
             }
@@ -416,7 +403,7 @@ namespace traductor.analyzers
             if (preAnalysis.TypeToken == Token.Type.SIMBOLO_MAS)
             {
                 parea(Token.Type.SIMBOLO_MAS);
-                valor();
+                expresion();
                 concatenacion();
             }
         }
@@ -427,7 +414,7 @@ namespace traductor.analyzers
             parea(Token.Type.SIMBOLO_PUNTO);
             parea(Token.Type.RESERVADA_WRITELINE);
             parea(Token.Type.SIMBOLO_PARENTESIS_IZQ);
-            asignacionP();
+            expresion();
             parea(Token.Type.SIMBOLO_PARENTESIS_DCHO);
             parea(Token.Type.SIMBOLO_PUNTO_Y_COMA);
         }
@@ -463,12 +450,12 @@ namespace traductor.analyzers
                 || preAnalysis.TypeToken == Token.Type.DECIMAL || preAnalysis.TypeToken == Token.Type.SIMBOLO_PARENTESIS_IZQ
                 || preAnalysis.TypeToken == Token.Type.RESERVADA_TRUE || preAnalysis.TypeToken == Token.Type.RESERVADA_FALSE)
             {
-                valor();
+                expresion();
                 condicionP();
             }
             else
             {
-                Console.WriteLine("Syntactic Error: Was expected 'valor' instead of '"
+                Console.WriteLine("Syntactic Error: Was expected 'expresion' instead of '"
                     + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
                 syntacticError = true;
             }
@@ -479,32 +466,32 @@ namespace traductor.analyzers
             if (preAnalysis.TypeToken == Token.Type.SIMBOLO_COMPARACION)
             {
                 parea(Token.Type.SIMBOLO_COMPARACION);
-                valor();
+                expresion();
             }
             else if (preAnalysis.TypeToken == Token.Type.SIMBOLO_DIFERENTE)
             {
                 parea(Token.Type.SIMBOLO_DIFERENTE);
-                valor();
+                expresion();
             }
             else if (preAnalysis.TypeToken == Token.Type.SIMBOLO_MAYOR_QUE)
             {
                 parea(Token.Type.SIMBOLO_MAYOR_QUE);
-                valor();
+                expresion();
             }
             else if (preAnalysis.TypeToken == Token.Type.SIMBOLO_MENOR_QUE)
             {
                 parea(Token.Type.SIMBOLO_MENOR_QUE);
-                valor();
+                expresion();
             }
             else if (preAnalysis.TypeToken == Token.Type.SIMBOLO_MAYOR_IGUAL)
             {
                 parea(Token.Type.SIMBOLO_MAYOR_IGUAL);
-                valor();
+                expresion();
             }
             else if (preAnalysis.TypeToken == Token.Type.SIMBOLO_MENOR_IGUAL)
             {
                 parea(Token.Type.SIMBOLO_MENOR_IGUAL);
-                valor();
+                expresion();
             }
         }
 
@@ -512,7 +499,7 @@ namespace traductor.analyzers
         {
             parea(Token.Type.RESERVADA_SWITCH);
             parea(Token.Type.SIMBOLO_PARENTESIS_IZQ);
-            valor();
+            expresion();
             parea(Token.Type.SIMBOLO_PARENTESIS_DCHO);
             parea(Token.Type.SIMBOLO_LLAVE_IZQ);
             caseP();
@@ -532,7 +519,7 @@ namespace traductor.analyzers
         public void cas()
         {
             parea(Token.Type.RESERVADA_CASE);
-            valor();
+            expresion();
             parea(Token.Type.SIMBOLO_DOS_PUNTOS);
             instP();
             parea(Token.Type.RESERVADA_BREAK);
@@ -553,10 +540,13 @@ namespace traductor.analyzers
             parea(Token.Type.RESERVADA_FOR);
             parea(Token.Type.SIMBOLO_PARENTESIS_IZQ);
             inicializador();
-            parea(Token.Type.SIMBOLO_PUNTO_Y_COMA);
+            /*
+             * El ; viene en la declaracion o asignacion
+             * parea(Token.Type.SIMBOLO_PUNTO_Y_COMA); 
+             */
             condicion();
             parea(Token.Type.SIMBOLO_PUNTO_Y_COMA);
-            iterador();
+            asigIterador();
             parea(Token.Type.SIMBOLO_PARENTESIS_DCHO);
             parea(Token.Type.SIMBOLO_LLAVE_IZQ);
             instP();
@@ -578,6 +568,21 @@ namespace traductor.analyzers
             else
             {
                 Console.WriteLine("Syntactic Error: Was expected 'declaracion | asignacion' instead of '"
+                    + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
+                syntacticError = true;
+            }
+        }
+
+        public void asigIterador()
+        {
+            if (preAnalysis.TypeToken == Token.Type.IDENTIFICADOR)
+            {
+                parea(Token.Type.IDENTIFICADOR);
+                iterador();
+            }
+            else
+            {
+                Console.WriteLine("Syntactic Error: Was expected 'id' instead of '"
                     + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
                 syntacticError = true;
             }
@@ -613,7 +618,7 @@ namespace traductor.analyzers
             {
                 if (index < ListToken.Count - 1)
                 {
-                    if (preAnalysis.TypeToken.Equals(type))
+                    if (preAnalysis.TypeToken == type)
                     {
                         index++;
                         preAnalysis = ListToken[index];

@@ -1,0 +1,112 @@
+INICIO -> R_class T_identificador S_llave_izq R_static R_void T_identificador S_parentesis_izq ARGUMENTO S_parentesis_dcho S_llave_izq INST' S_llave_dcho S_llave_dcho
+
+ARGUMENTO -> R_string S_corchete_izq S_corchete_dcho T_identificador
+			| ε
+
+INST' -> INST INST'
+		| ε
+			
+INST -> DECLARACION
+		| ASIGNACION
+		| IMPRIMIR
+		| SENT_IF
+		| SENT_SWITCH
+		| SENT_FOR
+		| SENT_WHILE
+		| T_cadena_doble
+		| T_cadena_simple
+		
+DECLARACION -> TIPO DECLARACION'
+
+TIPO -> R_int
+		| R_string
+		| R_float
+		| R_bool
+		| R_char
+
+DECLARACION' -> T_identificador ASIG_VAR DCL_VARIABLE S_punto_y_coma
+				| S_corchete_izq S_corchete_dcho T_identificador S_igual DCL_ARREGLO S_punto_y_coma
+
+ASIG_VAR -> S_igual ASIGNACION'
+			| ε
+
+DCL_VARIABLE -> S_coma T_identificador ASIG_VAR DCL_VARIABLE
+				| ε
+
+EXPRESION -> TERMINO EXPRESION'
+
+EXPRESION' -> S_mas TERMINO EXPRESION'
+			| S_menos TERMINO EXPRESION'
+			| ε
+
+TERMINO -> FACTOR TERMINO'
+
+TERMINO' -> S_multiplicacion FACTOR TERMINO'
+			| S_division FACTOR TERMINO'
+			| ε
+
+FACTOR -> S_parentesis_izq EXPRESION S_parentesis_dcho
+		| T_digito
+		| T_decimal
+		| T_identificador ASIG_ARREGLO'
+		| T_cadena_doble
+		| T_cadena_simple
+		| R_true
+		| R_false
+
+DCL_ARREGLO -> R_new TIPO S_corchete_izq EXPRESION S_corchete_dcho
+			| S_llave_izq EXPRESION ASIG_ARREGLO S_llave_dcho
+
+ASIG_ARREGLO -> S_coma EXPRESION ASIG_ARREGLO
+				| ε
+
+ASIGNACION -> T_identificador ASIG_VAR_AUDI S_punto_y_coma
+
+ITERADOR -> S_mas_mas
+			| S_menos_menos
+
+ASIG_VAR_AUDI -> ASIG_ARREGLO' S_igual ASIGNACION'
+				| ITERADOR
+
+ASIG_ARREGLO' -> S_corchete_izq EXPRESION S_corchete_dcho
+			| ε
+
+ASIGNACION' -> EXPRESION CONCATENACION
+
+CONCATENACION -> S_mas EXPRESION CONCATENACION
+				| ε
+
+IMPRIMIR -> R_console S_punto R_writeln S_parentesis_izq ASIGNACION' S_parentesis_dcho S_punto_y_coma
+
+SENT_IF -> R_if S_parentesis_izq CONDICION S_parentesis_dcho S_llave_izq INST' S_llave_dcho SENT_ELSE
+
+SENT_ELSE -> R_else S_llave_izq INST' S_llave_dcho SENT_ELSE
+			| ε
+
+CONDICION -> EXPRESION CONDICION'
+
+CONDICION' -> S_comparacion EXPRESION
+			| S_diferente EXPRESION
+			| S_mayor_que EXPRESION
+			| S_menor_que EXPRESION
+			| S_mayor_igual EXPRESION
+			| S_menor_igual EXPRESION
+			| ε
+
+SENT_SWITCH -> R_switch S_parentesis_izq EXPRESION S_parentesis_dcho S_llave_izq CASE' DEFAULT S_llave_dcho
+
+CASE' -> CASE CASE'
+		| ε 
+
+CASE -> R_case EXPRESION S_dos_puntos INST' R_break S_punto_y_coma
+
+DEFAULT -> R_default S_dos_puntos INST' R_break S_punto_y_coma
+
+SENT_FOR -> R_for S_parentesis_izq INICIALIZADOR S_punto_y_coma CONDICION S_punto_y_coma ASIG_ITERADOR S_parentesis_dcho S_llave_izq INST' S_llave_dcho
+
+INICIALIZADOR -> DECLARACION
+				| ASIGNACION
+
+SENT_WHILE -> R_while S_parentesis_izq CONDICION S_parentesis_dcho S_llave_izq INST' S_llave_dcho
+
+ASIG_ITERADOR -> T_identificador ITERADOR

@@ -38,7 +38,7 @@
             this.generarReportesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tokenReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tablaDeSimbolosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tablaDeErroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.errorReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.limpiarDocumentosRecientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ayudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -114,7 +114,7 @@
             this.generarReportesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tokenReportToolStripMenuItem,
             this.tablaDeSimbolosToolStripMenuItem,
-            this.tablaDeErroresToolStripMenuItem});
+            this.errorReportToolStripMenuItem});
             this.generarReportesToolStripMenuItem.Name = "generarReportesToolStripMenuItem";
             this.generarReportesToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
             this.generarReportesToolStripMenuItem.Text = "Generar Reportes";
@@ -122,21 +122,22 @@
             // tokenReportToolStripMenuItem
             // 
             this.tokenReportToolStripMenuItem.Name = "tokenReportToolStripMenuItem";
-            this.tokenReportToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.tokenReportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tokenReportToolStripMenuItem.Text = "Tabla de tokens";
             this.tokenReportToolStripMenuItem.Click += new System.EventHandler(this.tokenReportToolStripMenuItem_Click);
             // 
             // tablaDeSimbolosToolStripMenuItem
             // 
             this.tablaDeSimbolosToolStripMenuItem.Name = "tablaDeSimbolosToolStripMenuItem";
-            this.tablaDeSimbolosToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.tablaDeSimbolosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tablaDeSimbolosToolStripMenuItem.Text = "Tabla de simbolos";
             // 
-            // tablaDeErroresToolStripMenuItem
+            // errorReportToolStripMenuItem
             // 
-            this.tablaDeErroresToolStripMenuItem.Name = "tablaDeErroresToolStripMenuItem";
-            this.tablaDeErroresToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.tablaDeErroresToolStripMenuItem.Text = "Tabla de errores";
+            this.errorReportToolStripMenuItem.Name = "errorReportToolStripMenuItem";
+            this.errorReportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.errorReportToolStripMenuItem.Text = "Tabla de errores";
+            this.errorReportToolStripMenuItem.Click += new System.EventHandler(this.errorReportToolStripMenuItem_Click);
             // 
             // limpiarDocumentosRecientesToolStripMenuItem
             // 
@@ -241,7 +242,7 @@
         private System.Windows.Forms.ToolStripMenuItem generarReportesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tokenReportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tablaDeSimbolosToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tablaDeErroresToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem errorReportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem limpiarDocumentosRecientesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ayudaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem acercaDeToolStripMenuItem;

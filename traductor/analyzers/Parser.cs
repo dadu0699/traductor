@@ -12,7 +12,10 @@ namespace traductor.analyzers
         private int index;
         private Token preAnalysis;
         private bool syntacticError;
+        private int idError;
+
         private List<Token> ListToken;
+        internal List<Error> ListError { get; set; }
 
         public Parser(List<Token> listToken)
         {
@@ -20,6 +23,10 @@ namespace traductor.analyzers
             index = 0;
             preAnalysis = listToken[index];
             syntacticError = false;
+
+            idError = 0;
+            ListError = new List<Error>();
+
             inicio();
         }
 
@@ -108,9 +115,8 @@ namespace traductor.analyzers
             }
             else
             {
-                Console.WriteLine("Syntactic Error: Was expected 'declaracion | asignacion | imprimir | if " +
-                    "| for | switch | while | cadena | caracter' instead of '" + preAnalysis.toStringTypeToken + "', '"
-                    + preAnalysis.Value + "'");
+                addError(preAnalysis.Row, preAnalysis.Column, preAnalysis.toStringTypeToken, "Was expected 'declaracion " +
+                    "| asignacion | imprimir | if | for | switch | while | cadena | caracter'");
                 syntacticError = true;
             }
         }
@@ -145,8 +151,8 @@ namespace traductor.analyzers
             }
             else
             {
-                Console.WriteLine("Syntactic Error: Was expected 'string | int | float | bool | char' instead of '"
-                    + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
+                addError(preAnalysis.Row, preAnalysis.Column, preAnalysis.toStringTypeToken, "Was expected 'string | " +
+                    "int | float | bool | char'");
                 syntacticError = true;
             }
         }
@@ -171,8 +177,7 @@ namespace traductor.analyzers
             }
             else
             {
-                Console.WriteLine("Syntactic Error: Was expected 'id | []' instead of '"
-                    + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
+                addError(preAnalysis.Row, preAnalysis.Column, preAnalysis.toStringTypeToken, "Was expected 'id | []'");
                 syntacticError = true;
             }
         }
@@ -280,8 +285,8 @@ namespace traductor.analyzers
             }
             else
             {
-                Console.WriteLine("Syntactic Error: Was expected '( | digito | decimal | cadena | caracter | true | false " +
-                    "| id' instead of '" + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
+                addError(preAnalysis.Row, preAnalysis.Column, preAnalysis.toStringTypeToken, "Was expected 'parentesis izquierdo | digito | " +
+                    "decimal | cadena | caracter | true | false | id'");
                 syntacticError = true;
             }
         }
@@ -306,8 +311,7 @@ namespace traductor.analyzers
             }
             else
             {
-                Console.WriteLine("Syntactic Error: Was expected 'new | { ' instead of '"
-                    + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
+                addError(preAnalysis.Row, preAnalysis.Column, preAnalysis.toStringTypeToken, "Was expected 'new | llave izquierda'");
                 syntacticError = true;
             }
         }
@@ -332,8 +336,7 @@ namespace traductor.analyzers
             }
             else
             {
-                Console.WriteLine("Syntactic Error: Was expected 'id' instead of '"
-                    + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
+                addError(preAnalysis.Row, preAnalysis.Column, preAnalysis.toStringTypeToken, "Was expected 'id'");
                 syntacticError = true;
             }
         }
@@ -350,8 +353,7 @@ namespace traductor.analyzers
             }
             else
             {
-                Console.WriteLine("Syntactic Error: Was expected '++ | --' instead of '"
-                    + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
+                addError(preAnalysis.Row, preAnalysis.Column, preAnalysis.toStringTypeToken, "Was expected 'incremento | decremeto'");
                 syntacticError = true;
             }
         }
@@ -392,8 +394,7 @@ namespace traductor.analyzers
             }
             else
             {
-                Console.WriteLine("Syntactic Error: Was expected 'expresion' instead of '"
-                    + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
+                addError(preAnalysis.Row, preAnalysis.Column, preAnalysis.toStringTypeToken, "Was expected 'expresion'");
                 syntacticError = true;
             }
         }
@@ -455,8 +456,7 @@ namespace traductor.analyzers
             }
             else
             {
-                Console.WriteLine("Syntactic Error: Was expected 'expresion' instead of '"
-                    + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
+                addError(preAnalysis.Row, preAnalysis.Column, preAnalysis.toStringTypeToken, "Was expected 'expresion'");
                 syntacticError = true;
             }
         }
@@ -567,8 +567,7 @@ namespace traductor.analyzers
             }
             else
             {
-                Console.WriteLine("Syntactic Error: Was expected 'declaracion | asignacion' instead of '"
-                    + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
+                addError(preAnalysis.Row, preAnalysis.Column, preAnalysis.toStringTypeToken, "Was expected 'declaracion | asignacion'");
                 syntacticError = true;
             }
         }
@@ -582,8 +581,7 @@ namespace traductor.analyzers
             }
             else
             {
-                Console.WriteLine("Syntactic Error: Was expected 'id' instead of '"
-                    + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
+                addError(preAnalysis.Row, preAnalysis.Column, preAnalysis.toStringTypeToken, "Was expected 'id'");
                 syntacticError = true;
             }
         }
@@ -601,7 +599,7 @@ namespace traductor.analyzers
 
         public void parea(Token.Type type)
         {
-            Console.WriteLine(preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
+            // Console.WriteLine(preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
             if (syntacticError)
             {
                 if (index < ListToken.Count - 1)
@@ -625,12 +623,17 @@ namespace traductor.analyzers
                     }
                     else
                     {
-                        Console.WriteLine("Syntactic Error: Was expected '" + type + "' instead of '"
-                            + preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
+                        addError(preAnalysis.Row, preAnalysis.Column, preAnalysis.toStringTypeToken, "Was expected '" + type + "'");
                         syntacticError = true;
                     }
                 }
             }
+        }
+
+        public void addError(int row, int column, string chain, string description)
+        {
+            idError++;
+            ListError.Add(new Error(idError, row, column, chain, description));
         }
     }
 }

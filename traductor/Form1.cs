@@ -46,6 +46,7 @@ namespace traductor
                 if (ListToken.Any())
                 {
                     parser = new Parser(ListToken);
+                    Console.WriteLine("Syntactic analysis completed");
                     ListSyntacticErrors = parser.ListError;
 
                     if (ListSyntacticErrors.Any())
@@ -100,6 +101,17 @@ namespace traductor
                     Process.Start(Directory.GetCurrentDirectory() + "\\listadoTokens.html");
                     Process.Start(Directory.GetCurrentDirectory() + "\\listadoErroresLexicos.html");
                 }
+            }
+        }
+
+        private void translateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Translate translate = new Translate();
+            if (!ListLexicalErrors.Any() && !ListSyntacticErrors.Any()
+                && ListToken.Count > 0 && ListSyntacticErrors.Count == 0)
+            {
+                translate.start(ListToken);
+                translateTextBox.Text = translate.Code.ToString();
             }
         }
     }

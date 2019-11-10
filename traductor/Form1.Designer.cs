@@ -194,7 +194,7 @@
             this.translateTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.translateTextBox.BackColor = System.Drawing.SystemColors.Control;
+            this.translateTextBox.BackColor = System.Drawing.Color.White;
             this.translateTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.translateTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.translateTextBox.Location = new System.Drawing.Point(5, 10);

@@ -11,6 +11,7 @@ namespace traductor.util
     {
         private int index;
         private int counterTabulations;
+        private StringBuilder condition;
         private Token token;
         private List<Token> ListToken;
 
@@ -18,15 +19,24 @@ namespace traductor.util
 
         public Translate()
         {
-            index = 9;
+            index = 0;
             counterTabulations = 0;
             Code = new StringBuilder();
+            condition = new StringBuilder();
             ListToken = new List<Token>();
         }
 
         public void start(List<Token> listToken)
         {
             ListToken = listToken;
+            if (ListToken[7].TypeToken != Token.Type.RESERVADA_STRING)
+            {
+                index = 9;
+            }
+            else
+            {
+                index = 13;
+            }
             checkInstruction();
         }
 
@@ -36,7 +46,38 @@ namespace traductor.util
 
             if (token.TypeToken == Token.Type.IDENTIFICADOR)
             {
+                addIndentation();
                 asignacion();
+            }
+            else if (token.TypeToken == Token.Type.RESERVADA_CONSOLE)
+            {
+                addIndentation();
+                print();
+            }
+            else if (token.TypeToken == Token.Type.RESERVADA_IF)
+            {
+                addIndentation();
+                sentIf();
+            }
+            else if (token.TypeToken == Token.Type.RESERVADA_ELSE)
+            {
+                addIndentation();
+                sentElse();
+            }
+            else if (token.TypeToken == Token.Type.RESERVADA_SWITCH)
+            {
+                addIndentation();
+                sentSwitch();
+            }
+            else if (token.TypeToken == Token.Type.RESERVADA_CASE)
+            {
+                addIndentation();
+                sentCase();
+            }
+            else if (token.TypeToken == Token.Type.RESERVADA_DEFAULT)
+            {
+                addIndentation();
+                sentDefault();
             }
             else if (token.TypeToken == Token.Type.COMENTARIO_UNA_LINEA)
             {
@@ -49,9 +90,19 @@ namespace traductor.util
                 blockComment();
             }
 
+            if (token.TypeToken == Token.Type.SIMBOLO_LLAVE_IZQ)
+            {
+                counterTabulations++;
+            }
+            else if (token.TypeToken == Token.Type.SIMBOLO_LLAVE_DCHO
+                || token.TypeToken == Token.Type.RESERVADA_BREAK)
+            {
+                counterTabulations--;
+            }
 
             if (index < ListToken.Count - 1)
             {
+
                 index++;
                 checkInstruction();
             }
@@ -119,6 +170,97 @@ namespace traductor.util
                 }
                 Code.Append("\n");
             }
+        }
+
+        public void print()
+        {
+            index += 3;
+            assignToken();
+            Code.Append("print");
+            while (token.TypeToken != Token.Type.SIMBOLO_PUNTO_Y_COMA)
+            {
+                Code.Append(token.Value);
+                if (token.TypeToken != Token.Type.SIMBOLO_PARENTESIS_IZQ 
+                    && ListToken[index+1].TypeToken != Token.Type.SIMBOLO_PARENTESIS_DCHO)
+                {
+                    Code.Append(" ");
+                }
+                index++;
+                assignToken();
+            }
+            Code.Append("\n");
+        }
+
+        public void sentIf()
+        {
+            Code.Append(token.Value);
+            Code.Append(" ");
+            index += 2;
+            assignToken();
+            while (token.TypeToken != Token.Type.SIMBOLO_PARENTESIS_DCHO)
+            {
+                Code.Append(token.Value);
+                Code.Append(" ");
+                index++;
+                assignToken();
+            }
+            Code.Append(":");
+            Code.Append("\n");
+        }
+
+        public void sentElse()
+        {
+            Code.Append(token.Value);
+            Code.Append(":");
+            Code.Append("\n");
+        }
+
+        public void sentSwitch()
+        {
+            condition.Clear();
+            index += 2;
+            assignToken();
+            while (token.TypeToken != Token.Type.SIMBOLO_PARENTESIS_DCHO)
+            {
+                condition.Append(token.Value);
+                condition.Append(" ");
+                index++;
+                assignToken();
+            }
+
+            index += 2;
+            assignToken();
+            if (token.TypeToken == Token.Type.RESERVADA_CASE)
+            {
+                Code.Append("if " + condition + "== ");
+                index ++;
+                assignToken();
+                Code.Append(token.Value);
+                Code.Append(":");
+                index++;
+                assignToken();
+                counterTabulations++;
+            }
+            Code.Append("\n");
+        }
+
+        public void sentCase()
+        {
+            Code.Append("elif " + condition + "== ");
+            index++;
+            assignToken();
+            Code.Append(token.Value);
+            Code.Append(":");
+            index++;
+            assignToken();
+            counterTabulations++;
+            Code.Append("\n");
+        }
+        public void sentDefault()
+        {
+            Code.Append("else:");
+            counterTabulations++;
+            Code.Append("\n");
         }
 
         public void blockComment()

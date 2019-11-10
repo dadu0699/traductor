@@ -66,7 +66,7 @@ namespace traductor.analyzers
                 || preAnalysis.TypeToken == Token.Type.RESERVADA_CONSOLE || preAnalysis.TypeToken == Token.Type.RESERVADA_IF
                 || preAnalysis.TypeToken == Token.Type.RESERVADA_SWITCH || preAnalysis.TypeToken == Token.Type.RESERVADA_FOR
                 || preAnalysis.TypeToken == Token.Type.RESERVADA_WHILE || preAnalysis.TypeToken == Token.Type.COMENTARIO_MULTILINEA
-                || preAnalysis.TypeToken == Token.Type.COMENTARIO_UNA_LINEA)
+                || preAnalysis.TypeToken == Token.Type.COMENTARIO_UNA_LINEA || preAnalysis.TypeToken == Token.Type.RESERVADA_GRAFICARVECTOR)
             {
                 inst();
                 instP();
@@ -112,6 +112,16 @@ namespace traductor.analyzers
             else if (preAnalysis.TypeToken == Token.Type.COMENTARIO_UNA_LINEA)
             {
                 parea(Token.Type.COMENTARIO_UNA_LINEA);
+            }
+            else if (preAnalysis.TypeToken == Token.Type.RESERVADA_GRAFICARVECTOR)
+            {
+                parea(Token.Type.RESERVADA_GRAFICARVECTOR);
+                parea(Token.Type.SIMBOLO_PARENTESIS_IZQ);
+                parea(Token.Type.IDENTIFICADOR);
+                parea(Token.Type.SIMBOLO_COMA);
+                parea(Token.Type.CADENA);
+                parea(Token.Type.SIMBOLO_PARENTESIS_DCHO);
+                parea(Token.Type.SIMBOLO_PUNTO_Y_COMA);
             }
             else
             {

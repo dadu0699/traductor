@@ -61,7 +61,8 @@ namespace traductor.models
             CADENA,
             CARACTER,
             COMENTARIO_UNA_LINEA,
-            COMENTARIO_MULTILINEA
+            COMENTARIO_MULTILINEA,
+            RESERVADA_GRAFICARVECTOR
         }
 
         private int idToken;
@@ -185,6 +186,8 @@ namespace traductor.models
                         return "Cadena";
                     case Type.CARACTER:
                         return "Caracter";
+                    case Type.RESERVADA_GRAFICARVECTOR:
+                        return "Reservada graficarVector";
                     default:
                         return "Desconocido";
                 }

@@ -101,6 +101,17 @@ namespace traductor.util
                 addIndentation();
                 blockComment();
             }
+            else if (token.TypeToken == Token.Type.RESERVADA_GRAFICARVECTOR)
+            {
+                addIndentation();
+                while (token.TypeToken != Token.Type.SIMBOLO_PUNTO_Y_COMA)
+                {
+                    Code.Append(token.Value);
+                    index++;
+                    assignToken();
+                }
+                Code.Append("\n");
+            }
 
             // FIX
             if (iterator.Length != 0)
@@ -202,7 +213,7 @@ namespace traductor.util
                 }
                 Code.Append("\n");
             }
-            // Tiene que venir?
+            /*
             else
             {
                 while (token.TypeToken != Token.Type.SIMBOLO_PUNTO_Y_COMA)
@@ -225,6 +236,7 @@ namespace traductor.util
                 }
                 Code.Append("\n");
             }
+            */
         }
 
         public void print()

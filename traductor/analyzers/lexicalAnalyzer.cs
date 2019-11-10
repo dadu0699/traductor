@@ -495,6 +495,10 @@ namespace traductor.analyzers
             {
                 addToken(Token.Type.RESERVADA_WRITELINE);
             }
+            else if (auxiliary.Equals("graficarVector", StringComparison.InvariantCultureIgnoreCase))
+            {
+                addToken(Token.Type.RESERVADA_GRAFICARVECTOR);
+            }
             else
             {
                 addToken(Token.Type.IDENTIFICADOR);

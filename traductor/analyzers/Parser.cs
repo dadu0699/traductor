@@ -599,7 +599,6 @@ namespace traductor.analyzers
 
         public void parea(Token.Type type)
         {
-            // Console.WriteLine(preAnalysis.toStringTypeToken + "', '" + preAnalysis.Value + "'");
             if (syntacticError)
             {
                 if (index < ListToken.Count - 1)

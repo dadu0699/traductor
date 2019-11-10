@@ -12,6 +12,7 @@ namespace traductor.util
         private int index;
         private int counterTabulations;
         private StringBuilder condition;
+        private StringBuilder iterator;
         private Token token;
         private List<Token> ListToken;
 
@@ -23,6 +24,7 @@ namespace traductor.util
             counterTabulations = 0;
             Code = new StringBuilder();
             condition = new StringBuilder();
+            iterator = new StringBuilder();
             ListToken = new List<Token>();
         }
 
@@ -79,6 +81,16 @@ namespace traductor.util
                 addIndentation();
                 sentDefault();
             }
+            else if (token.TypeToken == Token.Type.RESERVADA_FOR)
+            {
+                addIndentation();
+                sentFor();
+            }
+            else if (token.TypeToken == Token.Type.RESERVADA_WHILE)
+            {
+                addIndentation();
+                sentWhile();
+            }
             else if (token.TypeToken == Token.Type.COMENTARIO_UNA_LINEA)
             {
                 addIndentation();
@@ -88,6 +100,17 @@ namespace traductor.util
             {
                 addIndentation();
                 blockComment();
+            }
+
+            // FIX
+            if (iterator.Length != 0)
+            {
+                counterTabulations++;
+                addIndentation();
+                Code.Append(iterator);
+                Code.Append("\n");
+                iterator.Clear();
+                counterTabulations--;
             }
 
             if (token.TypeToken == Token.Type.SIMBOLO_LLAVE_IZQ)
@@ -102,7 +125,6 @@ namespace traductor.util
 
             if (index < ListToken.Count - 1)
             {
-
                 index++;
                 checkInstruction();
             }
@@ -140,10 +162,20 @@ namespace traductor.util
                 }
                 else if (token.TypeToken == Token.Type.RESERVADA_NEW)
                 {
-                    Code.Append("[");
+                    index+=2;
+                    assignToken(); 
+                    Code.Append(token.Value);
                     index++;
                     assignToken();
-                    Code.Append("]");
+
+                    while (token.TypeToken != Token.Type.SIMBOLO_CORCHETE_DCHO)
+                    {
+                        Code.Append(token.Value);
+                        index++;
+                        assignToken();
+                    }
+
+                    Code.Append(token.Value);
                     index++;
                     assignToken();
                 }
@@ -170,6 +202,29 @@ namespace traductor.util
                 }
                 Code.Append("\n");
             }
+            // Tiene que venir?
+            else
+            {
+                while (token.TypeToken != Token.Type.SIMBOLO_PUNTO_Y_COMA)
+                {
+                    if (token.TypeToken != Token.Type.SIMBOLO_COMA)
+                    {
+                        Code.Append(token.Value + " = 0");
+                        if (ListToken[index + 1].TypeToken == Token.Type.SIMBOLO_COMA
+                            && ListToken[index + 2].TypeToken == Token.Type.IDENTIFICADOR)
+                        {
+                            Code.Append("\n");
+                        }
+                        else
+                        {
+                            Code.Append(" ");
+                        }
+                    }
+                    index++;
+                    assignToken();
+                }
+                Code.Append("\n");
+            }
         }
 
         public void print()
@@ -180,11 +235,6 @@ namespace traductor.util
             while (token.TypeToken != Token.Type.SIMBOLO_PUNTO_Y_COMA)
             {
                 Code.Append(token.Value);
-                if (token.TypeToken != Token.Type.SIMBOLO_PARENTESIS_IZQ 
-                    && ListToken[index+1].TypeToken != Token.Type.SIMBOLO_PARENTESIS_DCHO)
-                {
-                    Code.Append(" ");
-                }
                 index++;
                 assignToken();
             }
@@ -233,7 +283,7 @@ namespace traductor.util
             if (token.TypeToken == Token.Type.RESERVADA_CASE)
             {
                 Code.Append("if " + condition + "== ");
-                index ++;
+                index++;
                 assignToken();
                 Code.Append(token.Value);
                 Code.Append(":");
@@ -256,10 +306,72 @@ namespace traductor.util
             counterTabulations++;
             Code.Append("\n");
         }
+
         public void sentDefault()
         {
             Code.Append("else:");
             counterTabulations++;
+            Code.Append("\n");
+        }
+
+        public void sentFor()
+        {
+            index += 3;
+            assignToken();
+            asignacion();
+
+            addIndentation();
+            Code.Append("while ");
+            index++;
+            assignToken();
+            while (token.TypeToken != Token.Type.SIMBOLO_PUNTO_Y_COMA)
+            {
+                Code.Append(token.Value);
+                Code.Append(" ");
+                index++;
+                assignToken();
+            }
+
+            index++;
+            assignToken();
+            while (token.TypeToken != Token.Type.SIMBOLO_PARENTESIS_DCHO)
+            {
+                if (token.TypeToken == Token.Type.SIMBOLO_MAS_MAS)
+                {
+                    iterator.Append("+= 1");
+                }
+                else if (token.TypeToken == Token.Type.SIMBOLO_MENOS_MENOS)
+                {
+                    iterator.Append("-= 1");
+                }
+                else
+                {
+                    iterator.Append(token.Value);
+                }
+
+                iterator.Append(" ");
+                index++;
+                assignToken();
+            }
+
+            Code.Append(":");
+            Code.Append("\n");
+        }
+
+        public void sentWhile()
+        {
+            Code.Append(token.Value);
+            Code.Append(" ");
+            index += 2;
+            assignToken();
+            while (token.TypeToken != Token.Type.SIMBOLO_PARENTESIS_DCHO)
+            {
+                Code.Append(token.Value);
+                Code.Append(" ");
+                index++;
+                assignToken();
+            }
+            Code.Append(":");
             Code.Append("\n");
         }
 
@@ -309,7 +421,6 @@ namespace traductor.util
         public void assignToken()
         {
             token = ListToken[index];
-            Console.WriteLine(token.Value);
         }
     }
 }

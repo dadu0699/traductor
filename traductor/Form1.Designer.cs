@@ -42,12 +42,14 @@
             this.limpiarDocumentosRecientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ayudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.commandLineTextBox = new System.Windows.Forms.RichTextBox();
             this.textEditor = new System.Windows.Forms.RichTextBox();
             this.translateTextBox = new System.Windows.Forms.RichTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.guardarTraduccionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -69,6 +71,7 @@
             // archivoToolStripMenuItem
             // 
             this.archivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.abrirToolStripMenuItem,
             this.saveAsToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
@@ -78,14 +81,16 @@
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Guardar Como";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Salir";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // documentoToolStripMenuItem
             // 
@@ -93,7 +98,8 @@
             this.analyzeToolStripMenuItem,
             this.translateToolStripMenuItem,
             this.generarReportesToolStripMenuItem,
-            this.limpiarDocumentosRecientesToolStripMenuItem});
+            this.limpiarDocumentosRecientesToolStripMenuItem,
+            this.guardarTraduccionToolStripMenuItem});
             this.documentoToolStripMenuItem.Name = "documentoToolStripMenuItem";
             this.documentoToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
             this.documentoToolStripMenuItem.Text = "Documento";
@@ -125,20 +131,20 @@
             // tokenReportToolStripMenuItem
             // 
             this.tokenReportToolStripMenuItem.Name = "tokenReportToolStripMenuItem";
-            this.tokenReportToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.tokenReportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tokenReportToolStripMenuItem.Text = "Tabla de tokens";
             this.tokenReportToolStripMenuItem.Click += new System.EventHandler(this.tokenReportToolStripMenuItem_Click);
             // 
             // tablaDeSimbolosToolStripMenuItem
             // 
             this.tablaDeSimbolosToolStripMenuItem.Name = "tablaDeSimbolosToolStripMenuItem";
-            this.tablaDeSimbolosToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.tablaDeSimbolosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tablaDeSimbolosToolStripMenuItem.Text = "Tabla de simbolos";
             // 
             // errorReportToolStripMenuItem
             // 
             this.errorReportToolStripMenuItem.Name = "errorReportToolStripMenuItem";
-            this.errorReportToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.errorReportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.errorReportToolStripMenuItem.Text = "Tabla de errores";
             this.errorReportToolStripMenuItem.Click += new System.EventHandler(this.errorReportToolStripMenuItem_Click);
             // 
@@ -147,6 +153,7 @@
             this.limpiarDocumentosRecientesToolStripMenuItem.Name = "limpiarDocumentosRecientesToolStripMenuItem";
             this.limpiarDocumentosRecientesToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
             this.limpiarDocumentosRecientesToolStripMenuItem.Text = "Limpiar documentos Recientes";
+            this.limpiarDocumentosRecientesToolStripMenuItem.Click += new System.EventHandler(this.limpiarDocumentosRecientesToolStripMenuItem_Click);
             // 
             // ayudaToolStripMenuItem
             // 
@@ -159,20 +166,21 @@
             // acercaDeToolStripMenuItem
             // 
             this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
-            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.acercaDeToolStripMenuItem.Text = "Acerca de...";
+            this.acercaDeToolStripMenuItem.Click += new System.EventHandler(this.acercaDeToolStripMenuItem_Click);
             // 
-            // richTextBox2
+            // commandLineTextBox
             // 
-            this.richTextBox2.BackColor = System.Drawing.SystemColors.MenuText;
-            this.richTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.richTextBox2.Location = new System.Drawing.Point(0, 402);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.Size = new System.Drawing.Size(498, 105);
-            this.richTextBox2.TabIndex = 1;
-            this.richTextBox2.Text = "";
+            this.commandLineTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(104)))), ((int)(((byte)(114)))));
+            this.commandLineTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.commandLineTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.commandLineTextBox.Location = new System.Drawing.Point(0, 402);
+            this.commandLineTextBox.Name = "commandLineTextBox";
+            this.commandLineTextBox.ReadOnly = true;
+            this.commandLineTextBox.Size = new System.Drawing.Size(498, 105);
+            this.commandLineTextBox.TabIndex = 1;
+            this.commandLineTextBox.Text = "";
             // 
             // textEditor
             // 
@@ -194,7 +202,7 @@
             this.translateTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.translateTextBox.BackColor = System.Drawing.Color.White;
+            this.translateTextBox.BackColor = System.Drawing.Color.SlateGray;
             this.translateTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.translateTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.translateTextBox.Location = new System.Drawing.Point(5, 10);
@@ -206,7 +214,7 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.richTextBox2);
+            this.panel1.Controls.Add(this.commandLineTextBox);
             this.panel1.Controls.Add(this.textEditor);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
@@ -239,6 +247,20 @@
             this.panel2.Size = new System.Drawing.Size(498, 507);
             this.panel2.TabIndex = 2;
             // 
+            // abrirToolStripMenuItem
+            // 
+            this.abrirToolStripMenuItem.Name = "abrirToolStripMenuItem";
+            this.abrirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.abrirToolStripMenuItem.Text = "Abrir";
+            this.abrirToolStripMenuItem.Click += new System.EventHandler(this.abrirToolStripMenuItem_Click);
+            // 
+            // guardarTraduccionToolStripMenuItem
+            // 
+            this.guardarTraduccionToolStripMenuItem.Name = "guardarTraduccionToolStripMenuItem";
+            this.guardarTraduccionToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+            this.guardarTraduccionToolStripMenuItem.Text = "Guardar Traduccion";
+            this.guardarTraduccionToolStripMenuItem.Click += new System.EventHandler(this.guardarTraduccionToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -248,6 +270,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -275,12 +298,14 @@
         private System.Windows.Forms.ToolStripMenuItem limpiarDocumentosRecientesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ayudaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem acercaDeToolStripMenuItem;
-        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.RichTextBox commandLineTextBox;
         private System.Windows.Forms.RichTextBox textEditor;
         private System.Windows.Forms.RichTextBox translateTextBox;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.ToolStripMenuItem abrirToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem guardarTraduccionToolStripMenuItem;
     }
 }
 

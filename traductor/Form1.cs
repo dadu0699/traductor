@@ -41,11 +41,14 @@ namespace traductor
             ListToken = lexicalAnalyzer.ListToken;
             ListLexicalErrors = lexicalAnalyzer.ListError;
 
+
+            MessageBox.Show("Análisis léxico completado");
             if (!ListLexicalErrors.Any())
             {
                 if (ListToken.Any())
                 {
                     parser = new Parser(ListToken);
+                    MessageBox.Show("Análisis sintáctico completado");
                     Console.WriteLine("Syntactic analysis completed");
                     ListSyntacticErrors = parser.ListError;
 
@@ -64,13 +67,11 @@ namespace traductor
         private void tokenReportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             HTMLReport htmlReport = new HTMLReport();
-            if (ListToken.Any())
+
+            htmlReport.generateReport("listadoTokens.html", ListToken);
+            if (File.Exists(Directory.GetCurrentDirectory() + "\\listadoTokens.html"))
             {
-                htmlReport.generateReport("listadoTokens.html", ListToken);
-                if (File.Exists(Directory.GetCurrentDirectory() + "\\listadoTokens.html"))
-                {
-                    Process.Start(Directory.GetCurrentDirectory() + "\\listadoTokens.html");
-                }
+                Process.Start(Directory.GetCurrentDirectory() + "\\listadoTokens.html");
             }
         }
 
@@ -78,29 +79,17 @@ namespace traductor
         {
             HTMLReport htmlReport = new HTMLReport();
 
-            if (!ListLexicalErrors.Any())
-            {
-                if (ListSyntacticErrors.Any())
-                {
-                    htmlReport.generateReport("listadoErroresSintacticos.html", ListSyntacticErrors);
+            htmlReport.generateReport("listadoErroresLexicos.html", ListLexicalErrors);
+            htmlReport.generateReport("listadoErroresSintacticos.html", ListSyntacticErrors);
 
-                    if (File.Exists(Directory.GetCurrentDirectory() + "\\listadoErroresSintacticos.html"))
-                    {
-                        Process.Start(Directory.GetCurrentDirectory() + "\\listadoErroresSintacticos.html");
-                    }
-                }
+            if (File.Exists(Directory.GetCurrentDirectory() + "\\listadoErroresLexicos.html"))
+            {
+                Process.Start(Directory.GetCurrentDirectory() + "\\listadoErroresLexicos.html");
             }
-            else
-            {
-                htmlReport.generateReport("listadoTokens.html", ListToken);
-                htmlReport.generateReport("listadoErroresLexicos.html", ListLexicalErrors);
 
-                if (File.Exists(Directory.GetCurrentDirectory() + "\\listadoTokens.html")
-                    && File.Exists(Directory.GetCurrentDirectory() + "\\listadoErroresLexicos.html"))
-                {
-                    Process.Start(Directory.GetCurrentDirectory() + "\\listadoTokens.html");
-                    Process.Start(Directory.GetCurrentDirectory() + "\\listadoErroresLexicos.html");
-                }
+            if (File.Exists(Directory.GetCurrentDirectory() + "\\listadoErroresSintacticos.html"))
+            {
+                Process.Start(Directory.GetCurrentDirectory() + "\\listadoErroresSintacticos.html");
             }
         }
 
@@ -112,6 +101,98 @@ namespace traductor
             {
                 translate.start(ListToken);
                 translateTextBox.Text = translate.Code.ToString();
+            }
+        }
+
+        private void acercaDeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("201801266  Didier Alfredo Domínguez Urías", "Datos");
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void limpiarDocumentosRecientesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            textEditor.Clear();
+            translateTextBox.Clear();
+            commandLineTextBox.Clear();
+            ListToken.Clear();
+            ListLexicalErrors.Clear();
+            ListSyntacticErrors.Clear();
+        }
+
+        private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = @"C:\",
+                RestoreDirectory = true,
+                FileName = "",
+                DefaultExt = "cs",
+                Filter = "Archivos CS (*.cs)|*.cs"
+            };
+
+            string line = "";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                textEditor.Clear();
+                StreamReader streamReader = new StreamReader(openFileDialog.FileName);
+                while (line != null)
+                {
+                    line = streamReader.ReadLine();
+                    if (line != null)
+                    {
+                        textEditor.AppendText(line);
+                        textEditor.AppendText(Environment.NewLine);
+                    }
+                }
+                streamReader.Close();
+            }
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                InitialDirectory = @"C:\",
+                RestoreDirectory = true,
+                FileName = "",
+                DefaultExt = "cs",
+                Filter = "Archivos CS (*.cs)|*.cs"
+            };
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Stream fileStream = saveFileDialog.OpenFile();
+                StreamWriter streamWriter = new StreamWriter(fileStream);
+                streamWriter.Write(textEditor.Text);
+                streamWriter.Close();
+                fileStream.Close();
+            }
+        }
+
+        private void guardarTraduccionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                InitialDirectory = @"C:\",
+                RestoreDirectory = true,
+                FileName = "",
+                DefaultExt = "py",
+                Filter = "Archivos PY (*.py)|*.py"
+            };
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Stream fileStream = saveFileDialog.OpenFile();
+                StreamWriter streamWriter = new StreamWriter(fileStream);
+                streamWriter.Write(translateTextBox.Text);
+                streamWriter.Close();
+                fileStream.Close();
             }
         }
     }

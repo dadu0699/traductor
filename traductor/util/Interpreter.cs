@@ -29,21 +29,21 @@ namespace traductor.util
             string[] references = { "System.dll" };
             CompilerParams.ReferencedAssemblies.AddRange(references);
 
-            StringBuilder sb = new StringBuilder("");
-            sb.Append("using System;\n");
-            sb.Append("using System.Collections.Generic;\n");
-            sb.Append("using System.Text;\n");
-            sb.Append("using System.Threading.Tasks;\n");
+            StringBuilder stringBuilder = new StringBuilder("");
+            stringBuilder.Append("using System;\n");
+            stringBuilder.Append("using System.Collections.Generic;\n");
+            stringBuilder.Append("using System.Text;\n");
+            stringBuilder.Append("using System.Threading.Tasks;\n");
 
-            sb.Append("namespace traductor{ \n");
-            sb.Append("}\n");
-            sb.Append(code);
-            sb.Replace("static", "static public");
-            sb.Replace("string[] args", "");
-            // Console.WriteLine(sb);
+            stringBuilder.Append("namespace traductor{ \n");
+            stringBuilder.Append("}\n");
+            stringBuilder.Append(code);
+            stringBuilder.Replace("static", "static public");
+            stringBuilder.Replace("string[] args", "");
+            // Console.WriteLine(stringBuilder);
 
             CSharpCodeProvider provider = new CSharpCodeProvider();
-            CompilerResults compile = provider.CompileAssemblyFromSource(CompilerParams, sb.ToString());
+            CompilerResults compile = provider.CompileAssemblyFromSource(CompilerParams, stringBuilder.ToString());
 
             if (compile.Errors.HasErrors)
             {

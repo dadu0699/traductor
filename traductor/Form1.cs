@@ -209,6 +209,10 @@ namespace traductor
                 {
                     commandLineTextBox.Text = interpreter.CompileAndRun(content, ListToken[1].Value);
                 }
+                else
+                {
+                    MessageBox.Show("Aun no se han realizado los analisis");
+                }
             }
         }
     }

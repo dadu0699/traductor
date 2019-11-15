@@ -47,12 +47,7 @@ namespace traductor.util
 
             if (compile.Errors.HasErrors)
             {
-                string text = "Compile error: ";
-                foreach (CompilerError ce in compile.Errors)
-                {
-                    text += "rn" + ce.ToString();
-                }
-                throw new Exception(text);
+                return ("ERROR: " + compile.Errors[0].ErrorText);
             }
 
             // ExpoloreAssembly(compile.CompiledAssembly);

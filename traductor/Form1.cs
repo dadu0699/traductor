@@ -207,7 +207,7 @@ namespace traductor
                 if (!ListLexicalErrors.Any() && !ListSyntacticErrors.Any()
                     && ListToken.Count > 0 && ListSyntacticErrors.Count == 0)
                 {
-                    commandLineTextBox.Text = interpreter.CompileAndRun(content, ListToken[1].Value);
+                    commandLineTextBox.Text = interpreter.compileRun(content, ListToken[1].Value);
                 }
                 else
                 {

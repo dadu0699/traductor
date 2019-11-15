@@ -16,7 +16,7 @@ namespace traductor.util
         {
         }
 
-        public string CompileAndRun(string code, string className)
+        public string compileRun(string code, string className)
         {
             CompilerParameters CompilerParams = new CompilerParameters();
             string outputDirectory = Directory.GetCurrentDirectory();
@@ -50,7 +50,7 @@ namespace traductor.util
                 return ("ERROR: " + compile.Errors[0].ErrorText);
             }
 
-            // ExpoloreAssembly(compile.CompiledAssembly);
+            // exploreAssembly(compile.CompiledAssembly);
 
             Module module = compile.CompiledAssembly.GetModules()[0];
             Type mt = null;
@@ -80,7 +80,7 @@ namespace traductor.util
             return "";
         }
 
-        public void ExpoloreAssembly(Assembly assembly)
+        public void exploreAssembly(Assembly assembly)
         {
             Console.WriteLine("Modules in the assembly:");
             foreach (Module m in assembly.GetModules())

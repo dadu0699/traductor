@@ -17,9 +17,9 @@ namespace traductor
 {
     public partial class Form1 : Form
     {
-        private List<Token> ListToken; 
-        private List<Error> ListLexicalErrors; 
-        private List<Error> ListSyntacticErrors; 
+        private List<Token> ListToken;
+        private List<Error> ListLexicalErrors;
+        private List<Error> ListSyntacticErrors;
 
         public Form1()
         {
@@ -34,13 +34,14 @@ namespace traductor
         {
             LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
             Parser parser;
-            HTMLReport htmlReport = new HTMLReport();
             string content = textEditor.Text;
             lexicalAnalyzer.scanner(content);
 
             ListToken = lexicalAnalyzer.ListToken;
             ListLexicalErrors = lexicalAnalyzer.ListError;
 
+            translateTextBox.Clear();
+            commandLineTextBox.Clear();
 
             MessageBox.Show("Análisis léxico completado");
             if (!ListLexicalErrors.Any())
@@ -193,6 +194,21 @@ namespace traductor
                 streamWriter.Write(translateTextBox.Text);
                 streamWriter.Close();
                 fileStream.Close();
+            }
+        }
+
+        private void ejecutarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Interpreter interpreter = new Interpreter();
+            string content = textEditor.Text;
+
+            if (content.Length > 0)
+            {
+                if (!ListLexicalErrors.Any() && !ListSyntacticErrors.Any()
+                    && ListToken.Count > 0 && ListSyntacticErrors.Count == 0)
+                {
+                    commandLineTextBox.Text = interpreter.CompileAndRun(content, ListToken[1].Value);
+                }
             }
         }
     }

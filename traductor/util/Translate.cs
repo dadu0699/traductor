@@ -213,7 +213,6 @@ namespace traductor.util
                 }
                 Code.Append("\n");
             }
-            /*
             else
             {
                 while (token.TypeToken != Token.Type.SIMBOLO_PUNTO_Y_COMA)
@@ -236,7 +235,6 @@ namespace traductor.util
                 }
                 Code.Append("\n");
             }
-            */
         }
 
         public void print()

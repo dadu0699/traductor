@@ -213,28 +213,6 @@ namespace traductor.util
                 }
                 Code.Append("\n");
             }
-            else
-            {
-                while (token.TypeToken != Token.Type.SIMBOLO_PUNTO_Y_COMA)
-                {
-                    if (token.TypeToken != Token.Type.SIMBOLO_COMA)
-                    {
-                        Code.Append(token.Value + " = 0");
-                        if (ListToken[index + 1].TypeToken == Token.Type.SIMBOLO_COMA
-                            && ListToken[index + 2].TypeToken == Token.Type.IDENTIFICADOR)
-                        {
-                            Code.Append("\n");
-                        }
-                        else
-                        {
-                            Code.Append(" ");
-                        }
-                    }
-                    index++;
-                    assignToken();
-                }
-                Code.Append("\n");
-            }
         }
 
         public void print()

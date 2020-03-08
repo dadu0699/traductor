@@ -61,7 +61,7 @@ namespace traductor.util
             streamWriter.WriteLine("<thead><tr><th>#</th><th>Lexema</th><th>Tipo</th><th>Fila</th><th>Columna</th></tr></thead>");
             streamWriter.WriteLine("<tbody>");
 
-            foreach (var item in listTokens)
+            foreach (Token item in listTokens)
             {
                 streamWriter.WriteLine("<tr>");
                 streamWriter.WriteLine("<th>" + item.IdToken + "</th>");
@@ -93,7 +93,7 @@ namespace traductor.util
             streamWriter.WriteLine("<thead><tr><th>#</th><th>Error</th><th>Descripción</th><th>Fila</th><th>Columna</th></tr></thead>");
             streamWriter.WriteLine("<tbody>");
 
-            foreach (var item in listError)
+            foreach (Error item in listError)
             {
                 streamWriter.WriteLine("<tr>");
                 streamWriter.WriteLine("<th>" + item.IdError + "</th>");
